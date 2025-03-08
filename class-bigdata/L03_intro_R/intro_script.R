@@ -65,8 +65,8 @@ is.list(list_a[[1]])
 
 str(list_a[[1]])
 
-str(list_a) #list of 3 elements
-str(list_a[1]) #list of 1 element
+str(list_a)
+str(list_a[1])
 
 #################################
 ## MATRICES ####################
@@ -167,6 +167,8 @@ tib_b = tibble(
   measure = c(123, 234, 345, 456),
   category = c('good', 'good', 'bad', 'bad')
 )
+
+
 
 #################################
 ## TRANSFORM ####################
