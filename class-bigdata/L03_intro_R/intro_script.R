@@ -65,8 +65,8 @@ is.list(list_a[[1]])
 
 str(list_a[[1]])
 
-str(list_a)
-str(list_a[1])
+str(list_a) #list of 3 elements
+str(list_a[1]) #list of 1 element
 
 #################################
 ## MATRICES ####################
