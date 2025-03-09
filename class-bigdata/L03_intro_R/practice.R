@@ -33,6 +33,7 @@ pepsi = matrix(c(678,456,903,345), ncol = 2, byrow = 2)
 cola = matrix(c(76,54,90,99), ncol = 2, byrow = 2)
 pepsi
 cola
+print(cola)
 
 product = pepsi[1,2] * cola[2,1]
 product
@@ -42,3 +43,4 @@ lastname = c("al tamam")
 fullname = paste(name , lastname , sep = "-")
 fullname
 print(fullname)
+
