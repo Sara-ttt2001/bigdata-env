@@ -41,3 +41,4 @@ name = c("sara")
 lastname = c("al tamam")
 fullname = paste(name , lastname , sep = "-")
 fullname
+print(fullname)
