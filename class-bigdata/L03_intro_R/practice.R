@@ -36,3 +36,8 @@ cola
 
 product = pepsi[1,2] * cola[2,1]
 product
+
+name = c("sara")
+lastname = c("al tamam")
+fullname = paste(name , lastname , sep = "-")
+fullname
