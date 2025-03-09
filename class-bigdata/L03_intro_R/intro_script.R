@@ -132,7 +132,7 @@ res_a
 
 res_a["measure"]
 
-res_a$measure
+res_a$measure #it is the same function as double[] ($variable)
 
 ## check difference
 
@@ -157,7 +157,8 @@ library(tidyverse)
 ## TIBBLES ######################
 #################################
 
-tib_a <- as_tibble(res_a)
+#first import the library (tidyverse)
+tib_a <- as_tibble(res_a) #for copying
 
 tib_a
 
@@ -168,7 +169,7 @@ tib_b = tibble(
   category = c('good', 'good', 'bad', 'bad')
 )
 
-
+tib_b
 
 #################################
 ## TRANSFORM ####################
@@ -179,14 +180,14 @@ tib_b = tibble(
 
 tib_b %>%
   mutate(sample = gsub('sam', 'sample', sample))
-
+tib_b
 ### group
 
 tib_b %>%
   group_by(category)
 
 ## use groups
-
+tib_b
 tib_b %>%
   group_by(category) %>%
   mutate(members = n())
