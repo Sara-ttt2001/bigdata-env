@@ -89,3 +89,15 @@ phrase = function(first_name , last_name){
 phrase("sara","altamam")
 
 
+answer = function(x){
+  asdf = sqrt(x)
+  return(asdf)
+}
+answer(100)
+
+cock = function(m,n){
+  diff = m - n
+  return(diff)
+}
+cock(9,90)
+cock(m = 90, n = 9)
