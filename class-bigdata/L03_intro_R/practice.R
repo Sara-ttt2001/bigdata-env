@@ -98,3 +98,23 @@ tib_practice %>%
 tib_practice %>% 
   group_by(haircolor) %>% 
   summarise(types = n())
+
+
+library(tidyverse)
+
+tib1 = tibble(
+  factor = c(11,22,33,44),
+  factor2 = c(55,66,77,88)
+  
+)
+tib1
+length(tib1[["factor"]])
+sum = 0
+total_elements = length(tib1[["factor"]]) #always assign the length of the elements in a variable outside and before the for loop
+for(index in 1:total_elements){
+  
+  sum = sum + tib1$factor[index]
+}
+  avg = sum / total_elements
+  print(avg)
+

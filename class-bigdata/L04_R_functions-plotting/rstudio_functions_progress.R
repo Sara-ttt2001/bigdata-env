@@ -21,6 +21,7 @@ measurements
 
 some_values = c(23,43,22,34, rep(12,3), 43, 22)
 
+
 some_values
 
 #########################################
@@ -29,7 +30,7 @@ some_values
 
 increase <- function(x){
   # create an empty vector
-  newvector = vector()
+  newvector = vector() #newvector is an object
   # loop over the input
   for (val in x){
     new = val *3
@@ -39,7 +40,7 @@ increase <- function(x){
   # return as result this new vector
   return(newvector)
 }
-
+newvector
 
 ## execute the function:
 
@@ -78,6 +79,7 @@ supernew_values
 ## how about we type now
 newvector
 
+#order of the arguments is important
 compose_sentence <- function (word_one , word_two){
   sentence = paste0(word_one," ",word_two)
   return(sentence)
@@ -85,7 +87,7 @@ compose_sentence <- function (word_one , word_two){
 
 compose_sentence("I love","pizza")
 compose_sentence("pizza","i love")
-compose_sentence(word_two = "pizza",word_one = "i love")
+compose_sentence(word_two = "pizza",word_one = "i love") #named argument
 
 #########################################
 ### USE APPLY FUNCTIONS INSTEAD OF LOOPS
@@ -98,7 +100,7 @@ simple_increase = function(x){
 }
 
 ## use L-APPLY (apply family: they apply a function to some objects, applies a function to each element of the list)
-new_numbers = lapply(some_values, simple_increase)# is acts as a for loop where we should write a function, the result is a list
+new_numbers = lapply(some_values, simple_increase)# it acts as a for loop where we should write a function, the result is a list
 
 ## let's check 
 new_numbers
@@ -120,13 +122,13 @@ new_numbers
 ### straight inside the lapply code like this
 ### let's use square root
 
-unlist(
+result1 = unlist(
   lapply(some_values, function(input) sqrt(input))
 )
 
-### the argument of function(x) is set to each values of the list used and MUST be the same of the function
+### the argument of function(x) is set to each values of the list used and MUST be the same of the function (compatible with the function)
 
-
+result1
 
 ###################################
 ####### EXERCISE ##################
@@ -136,15 +138,15 @@ unlist(
 ### use the list: numbers_list
 ### and calculate the average of each of the three vectors by using 3 methods
 ### a for loop using an index instead of a variable assignment
-### a foo loop using a variable assignment
-### a lapply function
+### a for loop using a variable assignment
+### a l-apply function
 
 
 
 ######################################
 #### PLOTTING ########################
 ######################################
-#gg: grammar of graphics, data of visualization is really crucial: a lot of AI,insights on data, eda: explarotary data analysis
+#gg: grammar of graphics, data visualization is really crucial: a lot of AI,insights on data, eda: exploratory data analysis
 library(tidyverse)
 
 ### we have previously created dataset
@@ -154,11 +156,11 @@ measurements
 ## four different cell cultures
 
 ## we want to plot the time point in x and the value in y
-## however - our time points have been recorded as different variables
+## however - our time points have been recorded as different variables #not tidy
 ## we need to transform the data
 
 dataplot = measurements %>%
-  pivot_longer(  #to transform the data set
+  pivot_longer(  #to transform the data set longer in a vertical way
     cols = c(time01,time02,time03),
     names_to = "timepoint", #putting them in one value
     values_to = "value"
@@ -178,7 +180,7 @@ ggplot(dataplot, aes(x=timepoint, y=value, colour=sample))+
 ### let's add some more information
 
 ggplot(dataplot, aes(x=timepoint, y=value, colour=sample))+
-  geom_point()+
+  geom_point()+  #settings for the graphics
   geom_smooth()
 
 
