@@ -8,7 +8,7 @@ numbers_list <- list(
   c(10,20,30,40),
   c(100,200,250,300)
 )
-
+numbers_list
 
 measurements <- tibble(
   sample = c('cell01', 'cell02', 'cell03', 'cell04'),
@@ -17,11 +17,11 @@ measurements <- tibble(
   time03 = c(62,61,89,63)
 )
 
-
+measurements
 
 some_values = c(23,43,22,34, rep(12,3), 43, 22)
 
-
+some_values
 
 #########################################
 ## WRITE A FUNCTION #####################
@@ -34,7 +34,7 @@ increase <- function(x){
   for (val in x){
     new = val *3
     # append the value into new vector
-    newvector = c(newvector, new)
+    newvector = c(newvector, new) # the environment (local and temporary) of a function is independent, and also exists in the environment of the function only, not global
   }
   # return as result this new vector
   return(newvector)
@@ -59,7 +59,7 @@ newvector
 
 increase <- function(x){
   # create an empty vector
-  newvector <<- vector()
+  newvector <<- vector() #this symbol is known as global assignment
   # loop over the input
   for (val in x){
     new = val *3
@@ -78,7 +78,14 @@ supernew_values
 ## how about we type now
 newvector
 
+compose_sentence <- function (word_one , word_two){
+  sentence = paste0(word_one," ",word_two)
+  return(sentence)
+}
 
+compose_sentence("I love","pizza")
+compose_sentence("pizza","i love")
+compose_sentence(word_two = "pizza",word_one = "i love")
 
 #########################################
 ### USE APPLY FUNCTIONS INSTEAD OF LOOPS
@@ -90,8 +97,8 @@ simple_increase = function(x){
   return(new)
 }
 
-## use L-APPLY
-new_numbers = lapply(some_values, simple_increase)
+## use L-APPLY (apply family: they apply a function to some objects, applies a function to each element of the list)
+new_numbers = lapply(some_values, simple_increase)# is acts as a for loop where we should write a function, the result is a list
 
 ## let's check 
 new_numbers
@@ -137,7 +144,7 @@ unlist(
 ######################################
 #### PLOTTING ########################
 ######################################
-
+#gg: grammar of graphics, data of visualization is really crucial: a lot of AI,insights on data, eda: explarotary data analysis
 library(tidyverse)
 
 ### we have previously created dataset
@@ -151,9 +158,9 @@ measurements
 ## we need to transform the data
 
 dataplot = measurements %>%
-  pivot_longer(
+  pivot_longer(  #to transform the data set
     cols = c(time01,time02,time03),
-    names_to = "timepoint",
+    names_to = "timepoint", #putting them in one value
     values_to = "value"
     )
 

@@ -18,3 +18,4 @@
 # another data structure is tibbles
 # data transformation is crucial for modelling
 # %>% (command + shift + M on keyboard) (acts as a pipe, combining multiple operations together)
+# loops: repitition of exact same items that you perform one by one, on each element you execute some codes

@@ -213,10 +213,11 @@ tib_copy
 #################################
 
 
-for (number in tib_b$measure){
+for (number in tib_b$measure){ #number is a variable (temporary storage of the value of each element you are considering in this vector)
   res <- number * 2
   print(res)
 }
 
+tib_b[["measure"]]
 res
 
