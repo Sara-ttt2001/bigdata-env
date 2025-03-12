@@ -2,7 +2,7 @@
 ## what a chi-square is
 #########################
 
-set.seed(345) # a program that eludes you/ a starting point for a random calculation that sets reproducibility
+set.seed(345) # a starting point for a random calculation that sets reproducibility
 samplesize = 10
 pop_mean = 5
 pop_variance = 4
