@@ -26,3 +26,4 @@ ggplot() +
        x = "Number of Successes", y = "Probability") +
   scale_x_continuous(limits = c(0, n)) +
   scale_y_continuous(limits = c(0, max(binomial_data$y, hypergeometric_data$y, poisson_data$y) * 1.2))
+

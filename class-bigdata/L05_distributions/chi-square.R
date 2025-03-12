@@ -2,13 +2,13 @@
 ## what a chi-square is
 #########################
 
-set.seed(345)
+set.seed(345) # a program that eludes you/ a starting point for a random calculation that sets reproducibility
 samplesize = 10
 pop_mean = 5
 pop_variance = 4
 
-# Generate 1000 gamma distributions
-norm_dists <- replicate(10000, rnorm(samplesize, mean = pop_mean, sd = sqrt(pop_variance)))
+# Generate 1000 normal distributions
+norm_dists <- replicate(10000, rnorm(samplesize, mean = pop_mean, sd = sqrt(pop_variance))) #generate 10,000 samples of size 10 in normal distribution
 
 ## this mean the variance = sd^2 = 4
 
@@ -17,7 +17,7 @@ chi_stat <- function(variance){
   return(stat)
 }
 
-# Calculate the mean of each gamma distribution
+# Calculate the mean of each normal distribution
 variances <- apply(norm_dists, 2, var)
 chisquares <- unlist(lapply(variances, chi_stat))
 
