@@ -4,12 +4,12 @@ variant_analysis = readRDS(url("https://raw.githubusercontent.com/lescai-teachin
 
 variant_analysis = variant_analysis %>%
   mutate(
-    false_discovery = case_when(
+    false_discovery = case_when( # adding a column
       annotation == "associated" & pvalue < 0.05 ~ "true_positive",
       annotation == "associated" & pvalue >= 0.05 ~ "false_negative",
       annotation == "neutral" & pvalue < 0.05 ~ "false_positive",
       annotation == "neutral" & pvalue >= 0.05 ~ "true_negative",
-      TRUE ~ NA
+      TRUE ~ NA #cases that are not included in the condition
     )
   )
 ### how many p values significant now?

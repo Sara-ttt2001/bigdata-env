@@ -60,7 +60,7 @@ z_score = (joe - pop_mean) / pop_sd
 ## equal or above the z-score of our single measure
 ## on a default normal distribution (i.e. mean = 0 and sd = 1)
 
-pnorm(z_score, lower.tail = FALSE)
+pnorm(z_score, lower.tail = FALSE) #cumulative probability 
 
 
 ## roughly it still represents the proportion we have seen above
