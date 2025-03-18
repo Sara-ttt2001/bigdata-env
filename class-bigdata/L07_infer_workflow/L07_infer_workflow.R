@@ -6,7 +6,7 @@
 ###########################################################
 ### we use the same dataset used to visualise permutations
 ###########################################################
-
+library(tidyverse)
 dataCellCulture = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L07_infer_workflow/L07_dataset_resampling_cellculture.rds"))
 
 
@@ -16,12 +16,12 @@ dataCellCulture = readRDS(url("https://raw.githubusercontent.com/lescai-teaching
 library(infer)
 
 dataCellCulture %>% 
-  specify(formula = diameter ~ culture, success = "large")
+  specify(formula = diameter ~ culture, success = "large") #function to say what is depending on what (relationships), the diameter (dependent) of the cell depends on the culture (independent) or cell type, success is the reference element
 
 # in this case we have indicated the diameter as the response / outcome
 # and as explanatory variable the culture (i.e. if you're cultureA you'll likely have diameter "large")
-# discuss the concept of "success" in this context
-
+# discuss the concept of "success" in this context (min 1:15:00)
+# factor is categorical type of data
 ## now we make a hypotesis as H0
 
 # usually one indicates "point" for single samples tests
@@ -43,7 +43,7 @@ dataCellCulture_replicates = dataCellCulture %>%
 ## let's check the data have been produced as we intended
 nrow(dataCellCulture_replicates)
 
-## it's 1000 replicates of a dataset of 400 data points, i.e. 400,000 data points
+## it's 1000 replicates of a dataset of 400 data points in the tibble, i.e. 400,000 data points
 
 
 ### now we need to calculate the summary statistics for the null distribution
@@ -71,7 +71,7 @@ dataCellCulture_observation
 
 #### we now want to visualise the summary statistic compared with the null
 
-visualize(dataCellCulture_null_distribution, bins = 10) + 
+visualize(dataCellCulture_null_distribution, bins = 10) +  #creates a histogram, collapse the values of x in values
   shade_p_value(obs_stat = dataCellCulture_observation, direction = "right")
 
 ### this corresponds to the observation we made when producing our in-house plots with permutations
@@ -79,7 +79,7 @@ visualize(dataCellCulture_null_distribution, bins = 10) +
 ### of the cumulative distribution with our sample summary statistic and thus obtain the p-value
 
 dataCellCulture_null_distribution %>% 
-  get_p_value(obs_stat = dataCellCulture_observation, direction = "right")
+  get_p_value(obs_stat = dataCellCulture_observation, direction = "right") #depends on the randomness 
 
 ## it is obviously VERY significant, and we get a warning that p-values of 0 a suspicious
 
@@ -97,7 +97,7 @@ CellCultureMedium = readRDS(url("https://raw.githubusercontent.com/lescai-teachi
 ## NB: this is a preview of an approach we will use 
 ## in mode advanced classes in the course
 
-library(GGally)
+library(GGally) #exploratory data analysis: how the data will look like, potential relationships of the variables (one to one), how each variable is distributed and combinations
 ggpairs(CellCultureMedium, aes(color = medium))
 
 ### stop observing the plot, and make appropriate considerations

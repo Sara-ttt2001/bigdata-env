@@ -1,8 +1,8 @@
 
-
+library(tidyverse)
 dataCellCulture = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L07_infer_workflow/L07_dataset_resampling_cellculture.rds"))
 
-### let's save the plot with the proportions
+### let's save the plot with the proportions of the two cell types
 original_proportions = ggplot(dataCellCulture, aes(x=culture, fill = diameter))+
   geom_bar(position = "fill")
 
@@ -14,9 +14,9 @@ original_proportions
 ## if we then pivot_wider we have a 2x2 that's suitable for chi-square test
 dataCellCulture %>%
   group_by(culture, diameter) %>%
-  tally() %>%
+  tally() %>% #summarize n= n (), numerosity or counts
   pivot_wider(
-    names_from = diameter,
+    names_from = diameter, #display it in a wider version for comparison (visualization)
     values_from = n
   )
 
@@ -24,10 +24,11 @@ dataCellCulture %>%
 ### let's see what a permutation looks like
 ### we use the function sample()
 
+
 dataCellCulture = dataCellCulture %>%
   mutate(
-    reshuffled = sample(diameter, length(diameter), replace = FALSE)
-  )
+    reshuffled = sample(diameter, length(diameter), replace = FALSE) #sample function: to do resampling, where you're taking the sample, how large is the sample(sample size), replacement
+  ) #not changing the number of cells and the diameter
 
 ## we prepare a plot with the permuted proportions
 permuted_proportions = ggplot(dataCellCulture, aes(x=culture, fill = reshuffled))+
@@ -42,7 +43,7 @@ dataCellCulture %>%
   group_by(culture, reshuffled) %>%
   tally() %>%
   pivot_wider(
-    names_from = reshuffled,
+    names_from = reshuffled, #reshuffling is random 
     values_from = n
   )
 
@@ -56,7 +57,7 @@ plot_grid(
   ncol = 2,
   align = 'v'
 )
-
+#changing the proportion between the two, without changing the sample size, or numerosity or the diameter
 
 #### let's define a test to evaluate the extent of the difference
 #### i.e. the proportion between normal / large and the difference between
@@ -74,7 +75,7 @@ ratio = dataCellCulture %>%
   mutate(
     ratio = large / normal
   ) %>%
-  pull(ratio)
+  pull(ratio) #returning a vector
 
 proportion = ratio[1]/ratio[2]
 
@@ -100,5 +101,5 @@ proportions = replicate(100, {
   return(proportion)
 })
 
-hist(proportions)
+hist(proportions, xlim = c(0,3))
 abline(v = proportion, col='red', lwd=3, lty='dashed')
