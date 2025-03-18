@@ -11,7 +11,7 @@ dataCellCulture = readRDS(url("https://raw.githubusercontent.com/lescai-teaching
 
 
 ##### what is our assumption in terms of relationships?
-##### let's say we think the diameter depends on the cell type
+##### let's say we think the diameter depends on the cell type (alternative hypothesis H1)
 
 library(infer)
 
@@ -20,9 +20,9 @@ dataCellCulture %>%
 
 # in this case we have indicated the diameter as the response / outcome
 # and as explanatory variable the culture (i.e. if you're cultureA you'll likely have diameter "large")
-# discuss the concept of "success" in this context (min 1:15:00)
+# discuss the concept of "success" in this context (reference element, point of view)
 # factor is categorical type of data
-## now we make a hypotesis as H0
+## now we make a hypothesis as H0
 
 # usually one indicates "point" for single samples tests
 # and indicates "independence" for two samples tests, i.e. the outcome is independent
@@ -38,7 +38,7 @@ dataCellCulture %>%
 dataCellCulture_replicates = dataCellCulture %>% 
   specify(formula = diameter ~ culture, success = "large") %>%
   hypothesise(null = "independence") %>%
-  generate(reps = 1000, type = "permute") ## this is important, i.e. we use permutations and not bootstrapping
+  generate(reps = 1000, type = "permute") ## this is important, i.e. we use permutations and not bootstrapping for generating the null distribution
 
 ## let's check the data have been produced as we intended
 nrow(dataCellCulture_replicates)
@@ -82,8 +82,7 @@ dataCellCulture_null_distribution %>%
   get_p_value(obs_stat = dataCellCulture_observation, direction = "right") #depends on the randomness 
 
 ## it is obviously VERY significant, and we get a warning that p-values of 0 a suspicious
-
-
+#if the test statistic is 0.17, and the p-value is 0.001 (<=0.005),then reject null hypothesis)
 
 #########################################################
 ### PART 2 - CONTINUOUS VARIABLES #######################
