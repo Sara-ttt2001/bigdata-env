@@ -101,3 +101,21 @@ cock = function(m,n){
 }
 cock(9,90)
 cock(m = 90, n = 9)
+
+
+
+
+x <- seq(-20, 20, by = .1) # by means increment of the sequence
+y <- dnorm(x, mean = 5, sd = 0.5)
+plot(x,y)
+
+
+
+m <- seq(-10,10,by = .2)
+n <- pnorm(m, mean = 2.5, sd = 2)
+plot(m,n)
+
+
+l <- rnorm(50)
+hist(l, main = "Normal
+DIstribution")

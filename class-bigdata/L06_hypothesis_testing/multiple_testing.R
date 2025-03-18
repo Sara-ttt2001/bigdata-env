@@ -1,10 +1,10 @@
 
 variant_analysis = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L06_hypothesis_testing/L06_multiple_testing_dataset_variants.rds"))
-
+#it is online, it save an R object in its original format inside R
 
 variant_analysis = variant_analysis %>%
   mutate(
-    false_discovery = case_when( # adding a column
+    false_discovery = case_when( # adding a column, to give us result based on a certain condition
       annotation == "associated" & pvalue < 0.05 ~ "true_positive",
       annotation == "associated" & pvalue >= 0.05 ~ "false_negative",
       annotation == "neutral" & pvalue < 0.05 ~ "false_positive",
