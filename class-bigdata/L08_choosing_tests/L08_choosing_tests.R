@@ -1,5 +1,5 @@
-
-
+library(tidyverse)
+library(infer)
 ###################
 # chi-square test
 ###################
@@ -28,6 +28,7 @@ genotype_null_empirical %>%
                 direction = "greater")
 
 # calculate the p value from the observed statistic and null distribution
+
 p_value_independence <- genotype_null_empirical %>%
   get_p_value(obs_stat = genotype_observed,
               direction = "greater")
@@ -48,7 +49,7 @@ genotype_null_theoretical %>%
   visualize() + 
   shade_p_value(genotype_observed,
                 direction = "greater")
-
+#min 1:05:00
 
 ### one can also get the pvalue from the base chisq distribution in R
 pchisq(genotype_observed$stat, 2, lower.tail = FALSE)
@@ -63,7 +64,7 @@ chisq_test(carrierData, condition ~ genotype)
 ## why this is convenient?
 ##########################
 
-table(carrierData$condition, carrierData$genotype)
+table(carrierData$condition, carrierData$genotype) #2 categorical variables
 
 chisq_base = chisq.test(
   table(carrierData$condition, carrierData$genotype)
@@ -71,7 +72,7 @@ chisq_base = chisq.test(
 
 chisq_base
 
-tidy(chisq_base)
+tidy(chisq_base) #later, with the logistic regression
 
 
 
@@ -87,7 +88,7 @@ ggplot(bloodTestsData, aes(x=sugar, y=..density.., fill=individual_group))+
   geom_density(alpha = 0.6)
 
 ## is this difference going to be significant??
-
+#the outcome is continuous and the input is categorical
 
 ### let's use another way to visualise this
 
@@ -154,7 +155,7 @@ bloodTestsGroups = bloodTestsGroups %>%
   mutate(
     individual_group = factor(individual_group,
                               levels = c("low_exercise", "medium_exercise", "intense_exercise", "athletes")
-                              )
+                              ) #establish a specific order, we want to hypothesize, see any differences in the groups (meaning)
   )
 
 ### then we repeat
@@ -169,7 +170,7 @@ ggplot(bloodTestsGroups, aes(y=sugar, fill=individual_group))+
 sugar_groups_observed = bloodTestsGroups %>%
   specify(formula = sugar ~ individual_group ) %>%
   hypothesise(null = "independence") %>%
-  calculate(stat = "F")
+  calculate(stat = "F") #more categories than in t-test
 
 sugar_groups_null_empirical = bloodTestsGroups %>%
   specify(formula = sugar ~ individual_group ) %>%
@@ -191,7 +192,7 @@ p_value_sugar_groups <- sugar_groups_null_empirical %>%
   get_p_value(obs_stat = sugar_groups_observed,
               direction = "greater")
 
-p_value_sugar_groups
+p_value_sugar_groups   #extremely significant (very extreme), reject null (false positive), accept altenative
 
 
 ### what about the theoretical distribution?
@@ -233,7 +234,7 @@ ggplot(bloodTestsData, aes(x=sugar, y=insulin, colour = individual_group))+
 
 ggplot(bloodTestsData, aes(x=sugar, y=insulin, colour = individual_group))+
   geom_point()+
-  facet_wrap(~individual_group)
+  facet_wrap(~individual_group) #separate the groups
 
 ### we already know that case sugar is higher in cases
 ### there is surely a correlation so we really want to test the magnitude
@@ -266,7 +267,6 @@ corr_pval
 
 ################# LOGISTIC REGRESSION - TRADITIONAL WAY
 
-
 ggplot(bloodTestsData, aes(x=sugar, y=insulin, colour = individual_group))+
   geom_point()+
   geom_smooth(method = "lm", colour = "blue")+
@@ -274,7 +274,7 @@ ggplot(bloodTestsData, aes(x=sugar, y=insulin, colour = individual_group))+
 
 ### the relationship seems very clear, let's see when we run a linear regression in the traditional way
 
-linear_model = glm(insulin~sugar, data = bloodTestsData, family = "gaussian")
+linear_model = glm(insulin~sugar, data = bloodTestsData, family = "gaussian") #general linear model
 tidy(linear_model)
 
 linear_model2 = lm(insulin~sugar, data = bloodTestsData)
