@@ -49,7 +49,7 @@ genotype_null_theoretical %>%
   visualize() + 
   shade_p_value(genotype_observed,
                 direction = "greater")
-#min 1:05:00
+#min 1:05:00: where we do not generate after the hypothesis, theoritical distribution follows chi-sq, use the assume function
 
 ### one can also get the pvalue from the base chisq distribution in R
 pchisq(genotype_observed$stat, 2, lower.tail = FALSE)
@@ -275,7 +275,7 @@ ggplot(bloodTestsData, aes(x=sugar, y=insulin, colour = individual_group))+
 ### the relationship seems very clear, let's see when we run a linear regression in the traditional way
 
 linear_model = glm(insulin~sugar, data = bloodTestsData, family = "gaussian") #general linear model
-tidy(linear_model)
+library(tidymodels)
 
 linear_model2 = lm(insulin~sugar, data = bloodTestsData)
 tidy(linear_model2)
