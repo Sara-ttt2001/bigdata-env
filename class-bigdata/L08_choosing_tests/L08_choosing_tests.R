@@ -37,7 +37,7 @@ p_value_independence
 
 
 
-############## we could alternatively use the theoretical distribution
+############## we could alternatively use the theoretical distribution (much easier and quicker)
 
 
 genotype_null_theoretical = carrierData %>%
@@ -274,12 +274,14 @@ ggplot(bloodTestsData, aes(x=sugar, y=insulin, colour = individual_group))+
 
 ### the relationship seems very clear, let's see when we run a linear regression in the traditional way
 
-linear_model = glm(insulin~sugar, data = bloodTestsData, family = "gaussian") #general linear model
+linear_model = glm(insulin~sugar, data = bloodTestsData, family = "gaussian") #general linear model, the model assumes the response variable (insulin) follows a normal (Gaussian) distribution, The Gaussian (normal) distribution is the standard bell-shaped distribution characterized by a mean (μ) and variance (σ²)
 library(tidymodels)
 
 linear_model2 = lm(insulin~sugar, data = bloodTestsData)
 tidy(linear_model2)
-
+# linear relationship.
+#tidy(linear_model2) provides a clean summary of the relationship.
+#If the p-value is small (<0.05), sugar is a significant predictor of insulin.
 
 ###########################################
 ## CHI-SQUARE VS FISHER TEST ##############
@@ -305,7 +307,7 @@ tidy(fisher)
 
 table(carrierData$condition, carrierData$genotype)
 
-chisq_base = chisq.test(
+chisq_base = chisq.test( #here we use a table
   table(carrierData$condition, carrierData$genotype)
 )
 
@@ -332,4 +334,8 @@ carrierData = carrierData %>%
 genotype_test = glm(condition_reg ~ genotype_reg, data = carrierData, family = "binomial")
 
 tidy(genotype_test)
-
+#tidy(genotype_test):
+#Provides a clean summary of the logistic regression results, including:
+#Estimate (β): Shows the effect of genotype on the probability of being a patient.
+#Standard Error: Measures the precision of the estimate.
+#p-value: Tests whether the genotype has a statistically significant effect on condition.

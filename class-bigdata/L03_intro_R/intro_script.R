@@ -26,7 +26,7 @@ vec_1 <- c(1,2,3,4,5)
 vec_2 <- c("A", "B", "C", "D")
 
 ## check what happens
-vec_3 <- c(1, "B", 2, "C")
+vec_3 <- c(1, "B", 2, "C") 
 print(vec_3)
 
 is.character(vec_3[1])
@@ -37,7 +37,7 @@ vec_2[2]
 
 vec_2[[2]]
 
-vec_2[c(1,3)]
+vec_2[c(1,3)] #if we want ton extract 2 elements in the vector
 
 #################################
 ## LISTS   ######################
@@ -116,9 +116,9 @@ rownames(res_a)
 rownames(res_a) <- "sample"
 
 ## assign rownames
-rownames(res_a) <- res_a$sample
+rownames(res_a) <- res_a$sample #can be written as res_a[["sample"]]
 
-res_a
+
 
 
 ## better
@@ -184,13 +184,14 @@ tib_b
 ### group
 
 tib_b %>%
-  group_by(category)
+  group_by(category) #2 groups in the category
 
 ## use groups
 tib_b
 tib_b %>%
   group_by(category) %>%
-  mutate(members = n())
+  mutate(members = n()) #groups by the number of members in each group of the category
+
 
 tib_b %>%
   group_by(category) %>%

@@ -128,7 +128,9 @@ visualise(CellCultureMedium_null_hypothesis)+
 CellCultureMedium_null_hypothesis %>%
   get_p_value(obs_stat = CellCultureMedium_observed_stat, direction = "two-sided")
 
-
+#A larger observed statistic (e.g., a big difference in means) suggests a greater deviation from H₀.
+#A smaller observed statistic suggests the sample data is closer to what H₀ predicts.
+# Key Rule: Larger observed statistics usually lead to smaller p-values, and vice versa.
 ################################################
 ## TEST METABOLITE 3 AND DIAMETER ##############
 ################################################

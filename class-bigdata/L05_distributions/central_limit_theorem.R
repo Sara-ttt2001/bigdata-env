@@ -38,7 +38,7 @@ means <- apply(gamma_dists, 2, mean)
 
 
 # Plot the distribution of means
-hist(means, main = "Distribution of Means", xlab = "Mean", freq = FALSE, ylim = c(0,3))
+hist.default(means, main = "Distribution of Means", xlab = "Mean", freq = FALSE, ylim = c(0,3))
 
 # Add a normal distribution to the plot
 mu <- mean(means)

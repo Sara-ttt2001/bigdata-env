@@ -1,7 +1,8 @@
-
+library(tidyverse)
 variant_analysis = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L06_hypothesis_testing/L06_multiple_testing_dataset_variants.rds"))
 #it is online, it save an R object in its original format inside R
 
+#neutral means H0 is true, associated means H0 is false
 variant_analysis = variant_analysis %>%
   mutate(
     false_discovery = case_when( # adding a column, to give us result based on a certain condition
@@ -13,7 +14,7 @@ variant_analysis = variant_analysis %>%
     )
   )
 ### how many p values significant now?
-length(variant_analysis$pvalue[variant_analysis$pvalue < 0.05])
+length(variant_analysis$pvalue[variant_analysis$pvalue < 0.05]) #reject H0, since th pvalue is less than the alpha
 
 qqplot <- ggplot(variant_analysis, aes(sample = -log10(pvalue))) +
   stat_qq() +

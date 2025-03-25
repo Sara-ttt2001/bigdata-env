@@ -10,10 +10,10 @@ pop_variance = 4
 # Generate 1000 normal distributions
 norm_dists <- replicate(10000, rnorm(samplesize, mean = pop_mean, sd = sqrt(pop_variance))) #generate 10,000 samples of size 10 in normal distribution
 
-## this mean the variance = sd^2 = 4
+## this means the variance = sd^2 = 4
 
 chi_stat <- function(variance){
-  stat = ((samplesize-1)*variance)/pop_variance
+  stat = ((samplesize-1)*variance)/pop_variance #calculating the z-score
   return(stat)
 }
 
@@ -42,8 +42,8 @@ dimnames(table) <- list(c("Group A", "Group B", "Group C"), c("Category 1", "Cat
 table
 
 # Calculate row and column totals
-row_totals <- apply(table, 1, sum)
-col_totals <- apply(table, 2, sum)
+row_totals <- apply(table, 1, sum) #1 here means for rows
+col_totals <- apply(table, 2, sum) #2 here means for columns
 total <- sum(table)
 
 # Calculate expected counts for Category 1 and Category 2

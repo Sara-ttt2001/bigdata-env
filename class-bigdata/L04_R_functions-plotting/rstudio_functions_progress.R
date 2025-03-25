@@ -64,7 +64,7 @@ increase <- function(x){
   # loop over the input
   for (val in x){
     new = val *3
-    # append the value into new vector
+    # append (store) the value into new vector
     newvector <<- c(newvector, new)
   }
   # return as result this new vector

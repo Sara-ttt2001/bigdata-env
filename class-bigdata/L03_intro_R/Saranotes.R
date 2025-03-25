@@ -2,7 +2,7 @@
 # assigning variables: we can assign in 2 ways, either with = or <-
 # a vector is 1D sequence of numbers or letters (a line with a series of values)
 # for bar and foo they are a vector of size 1
-# c command in creating vectors means concatenation, simply puts together in the same object multiple values
+# c function in creating vectors means concatenation, simply puts together in the same object multiple values
 # for characters we use double quotations
 # a vector only contains one type (you can convert a number to a character and not the opposite)
 # we can extract an element from a string through slicing []

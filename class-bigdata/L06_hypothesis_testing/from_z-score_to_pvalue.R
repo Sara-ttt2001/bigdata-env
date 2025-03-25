@@ -16,7 +16,8 @@ normalDensity = tibble(
   score = s,
   probability = dnorm(s, mean = pop_mean, sd = pop_sd) ## probability of achieving that score with normal mean 25 & sd 4
 )
-
+#H0: joe did like the others
+#H1: joe exceeded the others
 ## we can now order the values of the probability in order to compute
 ## the cumulative probability
 
@@ -24,7 +25,7 @@ normalDensity = normalDensity %>%
   arrange(probability) %>% ## to make sure data are ordered by probability first
   mutate(
     cumulative_p = cumsum(probability), ## now they are ordered we can make a cumulative p
-    reject = cumulative_p <= alpha
+    reject = cumulative_p <= alpha #so i reject th H0 IF CUMULATIVE PROBABILITY is less than or equal to alpha.
   )
 
 ## now we can plot this
@@ -40,7 +41,7 @@ normalplot = ggplot(normalDensity)+
   geom_vline(xintercept = joe, col = "blue")+
   theme(legend.position = "none")
 
-plot(normalplot)
+plot(normalplot) 
 
 ## if we consider the sum of the probabilities of all the scores higher than
 ## our student, we obtain
@@ -59,6 +60,7 @@ z_score = (joe - pop_mean) / pop_sd
 ## the p-value is then calculated as the proportion of probability
 ## equal or above the z-score of our single measure
 ## on a default normal distribution (i.e. mean = 0 and sd = 1)
+
 
 pnorm(z_score, lower.tail = FALSE) #cumulative probability 
 
@@ -108,3 +110,10 @@ plot(zplot)
 library(gridExtra)
 grid.arrange(normalplot+xlim(10,38), zplot, nrow=2)
 
+#The critical value helps define the rejection region.
+#The p-value tells us where Joe’s score falls relative to that rejection region.
+#Example Interpretation
+
+#If Joe’s score is greater than the critical value, he is in the rejection region → Reject H₀.
+#If Joe’s p-value is less than α (0.05) → Reject H₀.
+# in this case the pvalue was greater than the alpha, so we accept the H0.
