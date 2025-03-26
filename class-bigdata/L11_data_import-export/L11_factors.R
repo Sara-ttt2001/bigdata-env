@@ -4,7 +4,7 @@
 ## the levels argument defines the attribute
 
 eyes <- factor(x = c("blue", "green", "green"),
-               levels = c("blue", "brown", "green")
+               levels = c("blue", "brown", "green") #unique possible values of the elements in the vector
                )
 
 ## when we inspect the object
@@ -15,7 +15,7 @@ unclass(eyes)
 
 
 ## import a dataset
-factorData = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L11_data_import-export/L11_dataset_factors.rds"))
+factorData = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L11_data_import-export/L11_dataset_factors.rds"))
 
 ## inspect the dataset
 factorData
@@ -32,15 +32,15 @@ levels(factorData$base)
 
 ## REORDER levels
 
-ggplot(factorData, aes(x=base, y=counts))+
-  geom_bar(stat = "identity")
+ggplot(factorData, aes(x=base, y=counts))+  #mapping the variables of the dataset as characteristics of the plot
+  geom_bar(stat = "identity")  #geom: geometry of the plot, identity means no calculations: use the values given
 
 ## to help visualising trends and relationshipcs, the factors 
 ## should follow the order of data
 
 factorData %>%
   mutate(
-    base = fct_reorder(base, counts)
+    base = fct_reorder(base, counts)  #reorders the levels of the vector based on the values of another variable(counts)
   ) %>%
   ggplot(aes(x=base, y=counts))+
   geom_bar(stat = "identity")
@@ -56,8 +56,8 @@ factorData %>%
 
 
 ## changing levels can be tricky
-## reconding can be done safely with fct_recode()
-## new level = old level
+## recoding can be done safely with fct_recode(), not changing the elements, only the value
+## new level = old level (mapping)
 
 
 factorData %>%
@@ -71,7 +71,7 @@ factorData %>%
   )
 
 
-### sometimes we need to collapse groups
+### sometimes we need to collapse groups (grouped into a new level, one to many)
 
 factorData %>% 
   mutate(
@@ -80,7 +80,7 @@ factorData %>%
                         pyrimidines = c("T", "C")
                         )
   )
-
+#pipe the recode, or save it into a new object
 ## this allows us to group
 
 factorData %>% 
@@ -89,6 +89,18 @@ factorData %>%
                         purines = c("A", "G"),
                         pyrimidines = c("T", "C")
     )
+  ) %>% 
+  group_by(base) %>% 
+  summarise(
+    base_cat_count = sum(counts)
+  )
+
+factorData %>% 
+  mutate(
+    base = fct_collapse(base,
+                        A_with_T = c("A", "T"),
+                        C_with_G = c("C","G")
+                        )
   ) %>% 
   group_by(base) %>% 
   summarise(
