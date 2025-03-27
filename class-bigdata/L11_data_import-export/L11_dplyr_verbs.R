@@ -29,7 +29,9 @@ select(babynames, -c(sex,n)) #for exclusion
 ### select with match
 
 select(babynames, starts_with("n"))
-
+#The reason select(babynames, starts_with("n")) is returning both name and n is because both column names start with "n":
+#name starts with "n".
+#n starts with "n".
 
 
 ###################
@@ -66,7 +68,7 @@ babynames %>%
 
 ## number of rows in a dataset or group
 babynames %>% 
-  summarise(n = n()) #counts all the values in a group
+  summarise(n = n()) #counts all the values in a group , if i used sum it will calculate the total of the values in n
 
 # number of DISTINCT values in a variable
 
@@ -75,14 +77,9 @@ babynames %>%
     n = n(), 
     nname = n_distinct(name) #number of unique values
     )
-ggplot(aes(x=base, y=counts))+
-  geom_bar(stat = "identity")
 
 
-babynames %>% 
-  group_by(year) %>% 
-  summarise(n_children = sum(n)) %>% 
-        ggplot()+
- 
+
+
   
   

@@ -8,9 +8,9 @@ names(formals(read_csv))
 
 ### one can compare options of different functions
 
-intersect(names(formals(read_tsv)), names(formals(read_csv)))
+intersect(names(formals(read_tsv)), names(formals(read_csv))) #Use intersect() to find shared argument names
 
-identical(names(formals(read_tsv)), names(formals(read_csv)))
+identical(names(formals(read_tsv)), names(formals(read_csv))) #returns FALSE is that the argument names of read_tsv() and read_csv() are not in the exact same order.
 
 ## why this is false?
 ## let's order the options
@@ -19,6 +19,8 @@ identical(
   names(formals(read_tsv))[order(names(formals(read_tsv)))], 
   names(formals(read_csv))[order(names(formals(read_csv)))]
   )
+#the result should be TRUE, provided that the two functions have the same arguments but in a different order.
+#If this still returns FALSE, then the functions have different argument names (even after sorting)
 
 check = c("george", "mary","lucas")
 order(check)
@@ -45,7 +47,7 @@ nimbus %>% pull(ozone) %>% class() #pull: returns a vector, class shows the type
 
 ## one can obtain a similar result with the function pluck()
 ## observe the difference between the two
-nimbus %>% pluck("ozone") %>% class() # variable is treated as a character in using pluck
+nimbus %>% pluck("ozone") %>% class() # variable is treated as a character in using pluck ""
 
 ## what is the conclusion of the vector type
 ## compare it with visual inspection of the above dataset
