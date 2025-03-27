@@ -1,6 +1,6 @@
 
-
-### introducing tribble()
+library(tidyverse)
+### introducing tribble(), simple table, not convenient for big data
 
 
 band = tribble(
@@ -21,25 +21,25 @@ instrument <- tribble(
 
 ### the effect of different joins
 
-### LEFT JOIN
+### LEFT JOIN, only the rows of the left dataset
 
 band %>% 
   left_join(instrument, by = "name")
 
 
-### RIGHT JOIN
+### RIGHT JOIN, only the rows of the right dataset
 
 band %>% 
   right_join(instrument, by = "name")
 
 
-### FULL JOIN
+### FULL JOIN, no overlap (union of the datasets)
 
 band %>% 
   full_join(instrument, by = "name")
 
 
-### INNER JOIN
+### INNER JOIN, handling the overlap
 
 band %>% 
   inner_join(instrument, by = "name")

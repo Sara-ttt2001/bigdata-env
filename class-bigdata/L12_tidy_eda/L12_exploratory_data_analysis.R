@@ -1,6 +1,6 @@
+library(tidyverse)
 
-
-## we can load internal datasets with
+## we can load internal datasets with shipped with a package
 data("diamonds")
 
 ## let's inspect the dataset
@@ -12,7 +12,7 @@ diamonds
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut))
 
-## or we can look at the counts, use a shortcut function
+## or we can look at the counts, use a shortcut function, grouped by cut, summarised by count
 
 diamonds %>% 
   count(cut)
@@ -26,17 +26,17 @@ diamonds %>%
 ### if we count a continuous variable in intervals, we transform it into a categorical one
 
 ggplot(data = diamonds) +
-  geom_histogram(mapping = aes(x = carat), binwidth = 0.5)
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.5) #decide continuous intervals to calculate frquencies
 
-## one can do this with the data using the function cut_width()
-
+## one can do this with the data using the function cut_width(), to be seen in a tibble
+#min 1:06:00
 diamonds %>% 
   count(cut_width(carat, 0.5))
 
 ## the grouping variable has become a factor with range intervals
 
 ## by filtering for some values we might notice unusual data
-
+# #| means or
 unusual <- diamonds %>% 
   filter(y < 3 | y > 20) %>% 
   select(price, x, y, z) %>%
@@ -50,14 +50,14 @@ unusual
 ## notice the use of the function between()
 
 diamonds2 <- diamonds %>% 
-  filter(between(y, 3, 20))
+  filter(between(y, 3, 20)) #between will toke thos values that are betwwen 3 and 20
 
 ## B) better to set them as missing and keep the records in the data
 
 diamonds2 <- diamonds %>% 
-  mutate(y = ifelse(y < 3 | y > 20, NA, y))
+  mutate(y = ifelse(y < 3 | y > 20, NA, y)) #for 2 cases it is convenient, condition, 2- the value the functions gets back if the condition is true, 3-the value the functions gets back if the condition is false
 
-### there's another way to do this
+### there's another way to do this, case_when is more robust and accurate and in complex situations
 
 diamonds2 <- diamonds %>% 
   mutate(
@@ -102,5 +102,26 @@ ggpairs(diamonds)
 ## check the index of the columns
 names(diamonds)
 
-## reformat the function this way
+## reformat the function this way, observations
 ggpairs(diamonds, columns = c(1,3:10), aes(colour = cut))
+
+
+diamonds %>% 
+  pivot_longer(
+    cols = c(1:10),
+    names_to = "variable",
+    values_to = "value"
+  ) %>% 
+  ggplot(aes(x=values))+
+  geom_density()+
+  facet_wrap(~variable, ncol = 3)
+
+diamonds %>% 
+  pivot_longer(
+    cols = c(1:10),
+    names_to = "variable",
+    values_to = "value"
+  ) %>% 
+  ggplot(aes(x=values))+
+  geom_density()+
+  facet_grid(rows~colvar)
