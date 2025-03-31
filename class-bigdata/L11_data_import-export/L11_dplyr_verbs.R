@@ -77,7 +77,16 @@ babynames %>%
     n = n(), 
     nname = n_distinct(name) #number of unique values
     )
+babynames %>%
+  summarise(first = min(year),
+            last = max(year),
+            total = sum(n))
 
+babynames %>%
+  group_by(year) %>%
+  summarise(n_children = sum(n)) %>%
+  ggplot() +
+  geom_line(aes(x = year, y = n_children))
 
 
 
