@@ -1,5 +1,5 @@
 
-heart_disease_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L13_modelling_intro/L13_dataset_heart_disease_data.rds"))
+heart_disease_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L13_modelling_intro/L13_dataset_heart_disease_data.rds"))
 
 
 ## first let's split
@@ -25,7 +25,7 @@ heart_disease_fit = rf_model %>%
 ## let's make a prediction and check it
 
 heart_disease_predictions = heart_disease_testing %>% 
-  bind_cols(
+  bind_cols( #order of the rows is the same
     predict(heart_disease_fit, heart_disease_testing),
     predict(heart_disease_fit, heart_disease_testing, type = "prob")
   )

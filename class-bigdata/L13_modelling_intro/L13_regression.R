@@ -4,16 +4,16 @@ library(tidymodels)
 tidymodels_prefer()
 
 ## read the data in
-photosynthesis_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L13_modelling_intro/L13_dataset_photosynthesis_data.rds"))
+photosynthesis_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L13_modelling_intro/L13_dataset_photosynthesis_data.rds"))
 
 
 ## split in training and testing
-set.seed(502)
-photosynthesis_split = initial_split(photosynthesis_data, prop = 0.8)
+set.seed(502) #starting number
+photosynthesis_split = initial_split(photosynthesis_data, prop = 0.8) #proportion of the data assigned for training data
 
 ## inspect the results
 photosynthesis_split
-
+#4000 rows for the training, 1000 rows for the testing
 
 ## create training data
 photosynthesis_training = training(photosynthesis_split)
@@ -29,7 +29,7 @@ lm_model <-
   linear_reg() %>% 
   set_engine("lm")
 
-
+#no need to set the mode, because we are doing only regression
 ## fit the model, by defining the relationship
 ## between the variables
 
@@ -54,7 +54,7 @@ lm_formula_fit %>% extract_fit_engine()
 
 ## best way to summarise is using a coherent tidymodels function
 
-tidy(lm_formula_fit)
+tidy(lm_formula_fit) #we can use tidy here, because used the lm engine
 
 ## all variables are clearly associated with the photosynthesis rate
 
