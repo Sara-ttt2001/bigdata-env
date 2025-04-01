@@ -80,4 +80,4 @@ genotypes_count
 chisq.test(
   genotypes_count %>% filter(variant == "dis_0") %>% ungroup() %>% select(`0/0`,`0/1`,`1/1`)
 )
-#filter rows, remove the groups from tibble(group by) select the 3 genotypes
+#filter rows, remove the groups from tibble(group by), select the 3 genotypes

@@ -27,7 +27,7 @@ diamonds %>%
 
 ggplot(data = diamonds) +
   geom_histogram(mapping = aes(x = carat), binwidth = 0.5) #decide continuous intervals to calculate frquencies
-
+# it defines the width of each bin on the x-axis.
 ## one can do this with the data using the function cut_width(), to be seen in a tibble
 #min 1:06:00
 diamonds %>% 
@@ -115,7 +115,7 @@ diamonds %>%
   ggplot(aes(x=values))+
   geom_density()+
   facet_wrap(~variable, ncol = 3)
-
+#facet_wrap() is a function in ggplot2 that splits a plot into multiple panels (facets) based on a categorical variable. Each panel represents a subset of the data.
 diamonds %>% 
   pivot_longer(
     cols = c(1:10),
@@ -125,3 +125,4 @@ diamonds %>%
   ggplot(aes(x=values))+
   geom_density()+
   facet_grid(rows~colvar)
+#facet_grid() is another faceting function in ggplot2 that splits plots into a grid based on two categorical variables. It allows you to compare data across rows and columns.
