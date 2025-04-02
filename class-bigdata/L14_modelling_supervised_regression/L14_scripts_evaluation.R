@@ -9,8 +9,8 @@ tidymodels_prefer()
 
 
 enzyme_lm_prediction %>%
-  metrics(truth = product, estimate = .pred)
-
+  metrics(truth = product, estimate = .pred) #truth is the real outcome, the estimate that holds the prediction
+#min 58
 
 enzyme_knn_prediction %>%
   metrics(truth = product, estimate = .pred)

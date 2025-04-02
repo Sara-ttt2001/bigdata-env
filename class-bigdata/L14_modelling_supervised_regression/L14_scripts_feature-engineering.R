@@ -20,7 +20,7 @@ enzyme_recipe <-
          data = enzyme_training) %>% 
   step_center(all_predictors()) %>% ## centre all predictors 
   step_scale(all_predictors()) ## scale all predictors
-
+#we can use step_normalize()
 
 rf_workflow <- workflow() %>% 
   add_model(rf_model_reg) %>% 
@@ -58,7 +58,7 @@ enzyme_rf_prediction  %>%
 ########################
 
 
-enzyme_intermediate_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L14_modelling_supervised_regression/L14_dataset_enzyme_intermediate_data.rds"))
+enzyme_intermediate_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L14_modelling_supervised_regression/L14_dataset_enzyme_intermediate_data.rds"))
 
 ### since the relationship is not linear
 ### we don't know which variable is not linearly correlated
@@ -76,7 +76,7 @@ enzyme_recipe_nonlinear <- recipe(intermediate_a ~ ., ### note how in regression
                                   data = enzyme_intermediate_training) %>% 
   step_center(all_predictors()) %>% 
   step_scale(all_predictors()) %>%
-  step_interact(~ temperature:eA_rate)  %>% ## interaction term
+  step_interact(~ temperature:eA_rate)  %>% ## interaction term, which variable we want to model as an interaction, we are looking at the outcome
   step_ns(temperature, deg_free = 5) %>% ## splines for temperature
   step_ns(eA_rate, deg_free = 5) ## splines for enzyme rate
 
@@ -118,8 +118,8 @@ enzyme_lm_prediction %>%
 ############################
 
 
-enzyme_mix_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L14_modelling_supervised_regression/L14_dataset_enzyme_mix_data.rds"))
-
+enzyme_mix_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L14_modelling_supervised_regression/L14_dataset_enzyme_mix_data.rds"))
+library(GGally)
 ## if we run
 ggpairs(enzyme_mix_data)
 

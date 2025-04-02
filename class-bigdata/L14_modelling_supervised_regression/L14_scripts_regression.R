@@ -5,7 +5,7 @@ library(tidymodels)
 tidymodels_prefer()
 
 
-enzyme_process_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L14_modelling_supervised_regression/L14_dataset_enzyme_process_data.rds"))
+enzyme_process_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L14_modelling_supervised_regression/L14_dataset_enzyme_process_data.rds"))
 
 
 ## FIRST WE SPLIT the dataset into training and testing
@@ -32,7 +32,7 @@ lm_model <-
 
 enzyme_lm_formula_fit <-
   lm_model %>% 
-  fit(product ~ ., data = enzyme_training)
+  fit(product ~ ., data = enzyme_training) #product is y, the dependent variable, the outcome
 
 
 ## now there's several ways to inspect the model
@@ -61,9 +61,11 @@ enzyme_lm_prediction = enzyme_lm_formula_fit %>%
 
 enzyme_lm_prediction %>%
   ggplot(aes(x=product, y=.pred))+
-  geom_point(alpha = 0.4, colour = "blue")+
+  geom_point(alpha = 0.4, colour = "blue")+ #alpha means the transparency, the discrimination between the points plotted
   geom_abline(colour = "red", alpha = 0.9)
-
+#the prediction does not fit the data, predictions are all over the plot
+#non-linear
+#minute 37 for the discussion
 
 ########################
 # NEAREST NEIGHBOURS ###
@@ -71,7 +73,7 @@ enzyme_lm_prediction %>%
 
 
 knn_reg_model <-
-  nearest_neighbor(neighbors = 5, weight_func = "triangular") %>%
+  nearest_neighbor(neighbors = 5, weight_func = "triangular") %>% #property of the function
   # This model can be used for classification or regression, so set mode
   set_mode("regression") %>%
   set_engine("kknn")
@@ -84,7 +86,7 @@ enzyme_knn_formula_fit <-
   knn_reg_model %>% 
   fit(formula = product ~ temperature + substrateA + substrateB + enzymeA + enzymeB + enzymeC + eA_rate + eB_rate + eC_rate, 
       data = enzyme_training)
-
+#knn does not work well with a dot
 
 enzyme_knn_prediction = enzyme_knn_formula_fit %>%
   predict(enzyme_testing) %>%
@@ -97,7 +99,7 @@ enzyme_knn_prediction %>%
   geom_point(alpha = 0.4, colour = "blue")+
   geom_abline(colour = "red", alpha = 0.9)
 
-
+#not a good prediction higher (minute 42)
 
 #########################
 ## RANDOM FOREST ########
@@ -119,11 +121,11 @@ enzyme_rf_prediction = enzyme_rf_formula_fit %>%
   predict(enzyme_testing) %>%
   bind_cols(enzyme_testing)
 
-
+#pass the fit to the prediction, predict the testing, and then add a column of the prediction to the testing
 
 
 enzyme_rf_prediction %>%
   ggplot(aes(x=product, y=.pred))+
   geom_point(alpha = 0.4, colour = "blue")+
   geom_abline(colour = "red", alpha = 0.9)
-
+#better but still not perfect (qualitative)
