@@ -2,10 +2,10 @@
 library(tidymodels)
 library(tidyverse)
 
-logreg_variants = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L15_modelling_supervised_classification/L15_dataset_logreg_variants.rds"))
+logreg_variants = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L15_modelling_supervised_classification/L15_dataset_logreg_variants.rds"))
 
 
-rf_model_tuning <- rand_forest(
+rf_model_tuning <- rand_forest( #use a question mark in the console
   mtry = tune(),
   trees = tune(),
   min_n = tune()
@@ -18,7 +18,7 @@ rf_tuning_grid <- grid_regular(mtry(range = c(5L,8L)),
                           trees(),
                           min_n(),
                           levels = 3)
-
+#creates a grid of possible predictor combinations.
 ## testing / training / validation
 ## pay attention to the concept
 
@@ -31,7 +31,7 @@ variants_new_training = training(variants_new_split)
 variants_new_testing = testing(variants_new_split)
 
 ## now we further split the training into training itself and validation of the step
-
+#random sampling of the training data
 set.seed(234)
 variants_folds <- vfold_cv(variants_new_training)
 
@@ -69,7 +69,7 @@ rf_class_tune_wf <- workflow() %>%
 #     grid = rf_tuning_grid
 #   )
 
-rf_tuning_results = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L15_modelling_supervised_classification/L15_dataset_rf_tuning_results.rds"))
+rf_tuning_results = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L15_modelling_supervised_classification/L15_dataset_rf_tuning_results.rds"))
 
 ### we can inspect the outcome metrics as usual
 
@@ -86,7 +86,7 @@ rf_tuning_results %>%
   facet_wrap(~ .metric, scales = "free", nrow = 2) +
   scale_x_log10(labels = scales::label_number()) +
   scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
-
+#the higher the number of trees in the forest, the more accurate it is 
 
 rf_tuning_results %>% 
   collect_metrics() %>% 
@@ -121,7 +121,7 @@ final_rf_wf <- rf_class_tune_wf %>%
 ## run on the test split
 
 final_rf_fit <- final_rf_wf %>% 
-  last_fit(variants_new_split)
+  last_fit(variants_new_split) #not fit
 
 ## metrics
 
@@ -143,12 +143,12 @@ rf_tuning_best_model <- finalize_model(
   rf_tuning_best_params ## these are the best parameters identified in tuning
 )
 
-
+#important predictors to allow the model to reach the prediction, and not association between the predictor and the outcome
 library(vip)
 
 
 rf_tuning_best_model %>%
-  set_engine("ranger", importance = "permutation") %>%
+  set_engine("ranger", importance = "permutation") %>% #swap the labels of the predictors, and see if the predictors changing if they have an effect on the prediction/ or performance of the model
   fit(
     as.formula(
     paste0("phenotype ~ ", paste0(predictors, collapse = " + "))

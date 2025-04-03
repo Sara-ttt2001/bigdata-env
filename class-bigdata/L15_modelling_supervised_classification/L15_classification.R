@@ -1,5 +1,5 @@
 
-logreg_variants = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L15_modelling_supervised_classification/L15_dataset_logreg_variants.rds"))
+logreg_variants = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L15_modelling_supervised_classification/L15_dataset_logreg_variants.rds"))
 
 
 library(tidymodels)
@@ -14,11 +14,11 @@ variants_testing = testing(variants_split)
 
 
 logistic_model <- logistic_reg() %>% 
-  set_engine("glm") %>% 
+  set_engine("glm") %>% #the outcome is 2 categories or more, it differs, pay attention to the number of possible values of the outcome
   set_mode("classification")
 
 variants_recipe <- recipe(phenotype ~ ., data = variants_training) %>% 
-  step_dummy(all_nominal_predictors()) %>%
+  step_dummy(all_nominal_predictors()) %>% #converts categorical predictors into numerical predictors, for representation only
   step_normalize()
 
 logreg_wf_variants <- workflow() %>% 
@@ -30,16 +30,16 @@ logreg_variants_fit <- fit(
   logreg_wf_variants,
   variants_training
 )
-
+#fitting is with the workflow and with the training data
 
 tidy(logreg_variants_fit)
-
+#case-when inside the mutate, and transform the dataset and assign values to the genotype
 ## we can convert the estimates to an odds-ratio
 ## and also filter nominally significant variants
 
 tidy(logreg_variants_fit, exponentiate = TRUE) %>% 
   filter(p.value < 0.05) 
-
+#the estimate values are exponentiated
 
 phenotype_variants_prediction = bind_cols(
   variants_testing %>% dplyr::select(phenotype),
@@ -70,9 +70,9 @@ length(sig_variants)
 
 ## we use for the formula only the significant variants
 ## have a look at what the paste0 code does
-
+#feature selection:
 variants_selection_recipe <- 
-  recipe(as.formula(paste0("phenotype", "~", paste0(sig_variants, collapse = " + "))),
+  recipe(as.formula(paste0("phenotype", "~", paste0(sig_variants, collapse = " + "))), #to convert the string into a formula
          data = variants_training) %>% 
   step_dummy(all_nominal_predictors()) %>%
   step_normalize()
@@ -124,7 +124,7 @@ rf_model <- rand_forest() %>%
   set_mode("classification") %>% 
   set_engine("ranger")
 
-predictors <- names(logreg_variants)[!(names(logreg_variants) %in% c("individual", "phenotype"))]
+predictors <- names(logreg_variants)[!(names(logreg_variants) %in% c("individual", "phenotype"))] #excluding individual and phenotype
 
 rf_variants_recipe <- recipe(
   as.formula(
