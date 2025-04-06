@@ -73,7 +73,7 @@ predicted_photosynthesis_rate = predicted_photosynthesis_rate %>%
     predict(lm_formula_fit, photosynthesis_testing, type = "pred_int") ## note addition of "type"
 )
 
-
+#to see if my pred value is within the limits of the interval
 ### now we can verify what our model predicts
 
 photosynthesis_testing %>% 
@@ -87,3 +87,29 @@ photosynthesis_testing %>%
 
 ### we can observe that the relationship is not exactly linear
 ### something we might have guessed in the initial plots
+
+#Alright, looking at your scatter plot:
+
+#The x-axis is rate (your observed/true values).
+#The y-axis is .pred (your model's predicted values).
+#Each black dot is a data point (true vs. predicted).
+#The red line is the line of perfect prediction (i.e., where predicted = observed exactly).
+#Conclusions from the plot:
+
+#Strong Positive Correlation:
+#The points are tightly clustered around the red line.
+#→ Your model is predicting very well — as the true value (rate) increases, the prediction (.pred) also increases proportionally.
+#Good model fit:
+#There's low spread around the line — very little error or noise.
+                     #(Some deviation at higher values, but overall strong.)
+                    # Slight underestimation for high values:
+                       #At higher rates (around 0.4–0.6), the model predictions seem a bit lower than the observed values (dots fall slightly below the line).
+                    # → Your model might slightly underestimate the outcome when the true rate is large.
+                     #No obvious systematic bias:
+                      # (E.g., not curving away dramatically from the red line.)
+                     #In short:
+                     #  Good predictive power.
+                    # Strong linear relationship.
+                    # Slight underestimation at high rates (maybe worth checking with residual plots or adding a nonlinear term if needed).
+                     
+                     

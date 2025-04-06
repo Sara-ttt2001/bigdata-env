@@ -33,5 +33,4 @@ heart_disease_predictions = heart_disease_testing %>%
 
 ## let's quickly check how our predictions go
 table(heart_disease_predictions$heart_disease_risk, heart_disease_predictions$.pred_class)
-
 ## we will discuss in the next class how we can improve this
