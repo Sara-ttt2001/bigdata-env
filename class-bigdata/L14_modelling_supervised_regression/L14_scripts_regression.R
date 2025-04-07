@@ -65,7 +65,23 @@ enzyme_lm_prediction %>%
   geom_abline(colour = "red", alpha = 0.9)
 #the prediction does not fit the data, predictions are all over the plot
 #non-linear
-#minute 37 for the discussion
+#1. The model is not fitting the data well.
+
+#The scatter of the points (blue dots) clearly shows a curved, nonlinear pattern.
+#But the red line (your linear regression) is straight.
+#➔ Conclusion: A simple linear model cannot capture the true relationship between product and .pred.
+#2. The predictions are biased.
+
+#For small values of product, the model underestimates (points are above the line).
+#For large values, it overestimates or misses (points far from the line).
+#➔ Conclusion: The model's errors are not random, which suggests systematic bias.
+#3. Nonlinear relationship exists.
+
+#The data seems to grow faster than linear for low product values, and then levels off.
+#➔ Conclusion: You might need a nonlinear model (e.g., polynomial regression, or a more flexible model like random forests or splines).
+#Summary in one sentence:
+
+#🔥 The relationship between product and .pred is clearly nonlinear, and a simple linear regression is not appropriate to model this data accurately.
 
 ########################
 # NEAREST NEIGHBOURS ###
@@ -80,7 +96,7 @@ knn_reg_model <-
 
 knn_reg_model
 
-
+#knn is always with training data
 
 enzyme_knn_formula_fit <-
   knn_reg_model %>% 
@@ -100,7 +116,23 @@ enzyme_knn_prediction %>%
   geom_abline(colour = "red", alpha = 0.9)
 
 #not a good prediction higher (minute 42)
+#1. The fit looks somewhat better but still has problems.
 
+#Compared to the previous plot, the points are less curved and more aligned along the diagonal.
+#However, there’s still a lot of scatter — especially at higher product values.
+#➔ Conclusion: The relationship is closer to linear, but still not perfectly captured by a simple straight line.
+#2. KNN seems to have "smoothed" the relationship.
+
+#KNN probably helped reduce extreme nonlinear effects.
+#However, KNN itself is a non-parametric method, not inherently linear — so forcing a linear model after KNN may still lose information.
+#➔ Conclusion: While the data is "cleaner", linear regression might still not be the ideal model here.
+#3. The model still suffers from variance issues.
+
+#Especially for larger product values (e.g., >2000), you can see points spread out a lot vertically.
+#➔ Conclusion: Prediction uncertainty increases with product — you might need a model that handles heteroscedasticity (non-constant variance), or one that models the spread better (like quantile regression).
+#TL;DR:
+ # ✨ After KNN, the data appears more linear but a simple linear regression still does not perfectly capture the pattern — especially at higher product values.
+#You’ve improved it, but there’s still room to use nonlinear models or variance-adjusted models for better performance.
 #########################
 ## RANDOM FOREST ########
 #########################
@@ -129,3 +161,27 @@ enzyme_rf_prediction %>%
   geom_point(alpha = 0.4, colour = "blue")+
   geom_abline(colour = "red", alpha = 0.9)
 #better but still not perfect (qualitative)
+#1. The predictions (.pred) are much tighter around the diagonal.
+
+#Points are clustered closer to the red line (which represents a perfect prediction).
+#There’s less spread, especially in the low to medium product values.
+#➔ Conclusion:
+#  ✅ Random Forest is capturing the relationship much better than both simple Linear Regression and KNN.
+
+#2. High product values still show a bit of deviation.
+
+#For very large product values (>2000), predictions start to underestimate a bit (points fall below the red line).
+#But overall, it's much less problematic than before.
+#➔ Conclusion:
+#🔵 Minor bias for very high values, but Random Forest still generalizes much better across the range.
+
+#3. Random Forest handles nonlinearity naturally.
+
+#Unlike linear regression, Random Forest can model complex, nonlinear relationships without requiring transformations.
+#That's probably why you now have better alignment and lower variance.
+#➔ Conclusion:
+ # 🌳 Random Forest is a much more appropriate model for this dataset.
+
+#Quick TL;DR:
+ # ✨ After Random Forest, the predictions are much closer to the true values, the spread is reduced, and the model performs way better overall.
+#Only very large values still show a slight underprediction.

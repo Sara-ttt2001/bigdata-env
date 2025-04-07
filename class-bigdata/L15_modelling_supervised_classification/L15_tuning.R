@@ -18,6 +18,29 @@ rf_tuning_grid <- grid_regular(mtry(range = c(5L,8L)),
                           trees(),
                           min_n(),
                           levels = 3)
+#What's happening step-by-step?
+#grid_regular():
+#Creates a regular grid of hyperparameter values — meaning evenly spaced values for each parameter across their range.
+#mtry(range = c(5L, 8L)):
+#You are telling it to try different values of mtry (number of variables randomly sampled at each split), between 5 and 8.
+#trees():
+#Include different values for the total number of trees in the forest.
+#(Default range will be used unless you specify.)
+#min_n():
+#Include different values for min_n, which is the minimum number of data points in a node for the node to be split further.
+#levels = 3:
+#For each parameter, you want 3 evenly spaced values across their range.
+#So what will the rf_tuning_grid contain?
+#It will be a data frame of all possible combinations of:
+
+#3 different mtry values (between 5 and 8)
+#3 different trees values
+#3 different min_n values
+#→ So you’ll get 
+#3×3×3=27 combinations in total! 🚀
+
+#Why do this?
+#This grid will later be used in hyperparameter tuning (with tune_grid()) to find the best settings for your Random Forest model — based on performance (like accuracy, ROC AUC, etc.).
 #creates a grid of possible predictor combinations.
 ## testing / training / validation
 ## pay attention to the concept

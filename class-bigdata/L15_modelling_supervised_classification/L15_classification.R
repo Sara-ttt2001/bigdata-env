@@ -9,6 +9,29 @@ variants_split = initial_split(logreg_variants %>%
                                  dplyr::select(-c(individual)) %>% 
                                  mutate(phenotype = factor(phenotype, levels = c("control", "case"))),
                                prop = 0.75)
+#logreg_variants %>%
+ # You're starting with a data frame called logreg_variants.
+#select(-c(individual))
+#You remove the column called individual.
+#Maybe because it’s an ID column (useless for modeling).
+#We usually remove IDs since they don't carry predictive information.
+#mutate(phenotype = factor(phenotype, levels = c("control", "case")))
+#You transform the phenotype column:
+ # Turn it into a factor (i.e., categorical variable in R).
+#You set the levels order to be control first, then case.
+#Why? → Probably because you're setting it up for logistic regression, and R by default models the second level (case) as the "positive" outcome when fitting models like glm(), etc.
+#initial_split(..., prop = 0.75)
+#You split the dataset:
+#75% of the data goes into the training set.
+#25% goes into the testing set.
+#It creates an object (variants_split) that you can later use to pull out the training/testing sets with training(variants_split) and testing(variants_split).
+#In short:
+#✅ Remove IDs,
+#✅ Fix the target variable (phenotype) to be a properly ordered factor,
+#✅ Split into training and testing sets, keeping 75% for training.
+
+
+
 variants_training = training(variants_split)
 variants_testing = testing(variants_split)
 
@@ -40,6 +63,29 @@ tidy(logreg_variants_fit)
 tidy(logreg_variants_fit, exponentiate = TRUE) %>% 
   filter(p.value < 0.05) 
 #the estimate values are exponentiated
+#Step-by-step:
+#  tidy(logreg_variants_fit, exponentiate = TRUE)
+#logreg_variants_fit is probably your fitted logistic regression model (maybe using glm() or via parsnip from tidymodels).
+#tidy() comes from the broom package. It turns model output into a neat data frame.
+#exponentiate = TRUE means:
+ # Exponentiate the coefficients (i.e., exp(coef)).
+#In logistic regression, the raw coefficients are in log-odds, and exponentiating them gives you odds ratios (easier to interpret!).
+#Example:
+  
+  #Log-odds coefficient: 0.7 → Odds ratio: exp(0.7) ≈ 2.01
+#(meaning about 2× increase in odds).
+#filter(p.value < 0.05)
+#You keep only the variables where the p-value is less than 0.05.
+#This means you're filtering for statistically significant predictors (at the 5% level).
+#So what does the full code do?
+#✅ Summarizes your logistic regression model,
+#✅ Converts coefficients into odds ratios,
+#✅ Keeps only predictors that are statistically significant.
+
+#✨ Summary:
+#In one line:
+#"Show me the significant predictors of case vs. control, expressed as odds ratios."
+
 
 phenotype_variants_prediction = bind_cols(
   variants_testing %>% dplyr::select(phenotype),
@@ -76,8 +122,6 @@ variants_selection_recipe <-
          data = variants_training) %>% 
   step_dummy(all_nominal_predictors()) %>%
   step_normalize()
-
-
 
 logreg_wf_selected_variants <- workflow() %>% 
   add_recipe(variants_selection_recipe) %>% 
