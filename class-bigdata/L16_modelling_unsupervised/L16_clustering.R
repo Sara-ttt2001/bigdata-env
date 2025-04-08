@@ -7,7 +7,7 @@ library(GGally)
 
 
 
-cytofluorimeter_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L16_modelling_unsupervised/L16_dataset_cytofluorimeter.rds"))
+cytofluorimeter_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L16_modelling_unsupervised/L16_dataset_cytofluorimeter.rds"))
 
 
 
@@ -20,7 +20,7 @@ k_means_model <- k_means(
 
 k_means_fit <- k_means_model %>% 
   fit(
-    formula = ~.,
+    formula = ~., #no otcome to describe
     data = cytofluorimeter_data
   )
 
@@ -72,13 +72,13 @@ k_means_fit %>% sse_ratio()
 ## small values of the WSS/TSS ratio suggest that 
 # the observations within clusters are closer (more similar) 
 # to each other than they are to the other clusters.
-
+# the measure is small because the clustering doesn't look bad
 
 ##################################
 ##### more complex data
 ##################################
 
-dataCellCulture = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L16_modelling_unsupervised/L16_dataset_cellculture_advanced.rds"))
+dataCellCulture = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L16_modelling_unsupervised/L16_dataset_cellculture_advanced.rds"))
 
 # To explore the dataset and identify any correlations 
 # between the variables, you can use the GGally::ggpairs() function:
@@ -120,7 +120,7 @@ culture_k_means_fit %>% sse_ratio()
 ### convenient function called "augment"
 
 clustered_culture = culture_k_means_fit %>%
-  augment(dataCellCulture)
+  augment(dataCellCulture) #identical to bind cols and extract cluster assignment
 
 ### let's inspect how it looks like
 clustered_culture
@@ -179,7 +179,7 @@ ggpairs(hc_clustered_culture, columns = 1:6, aes(colour = .cluster))
 ###################################################
 ### feature engineering approach with PCA #########
 ###################################################
-
+#we need to use distance from the perspective of the most variants are shown in the data (according to distance)
 
 culture_feature_eng_recipe <- recipe(~., data = dataCellCulture) %>% 
   step_normalize(all_numeric()) %>% 
@@ -188,7 +188,7 @@ culture_feature_eng_recipe <- recipe(~., data = dataCellCulture) %>%
 
 culture_feature_eng_wf <- workflow() %>% 
   add_model(k_means_model) %>% 
-  add_recipe(culture_feature_eng_recipe)
+  add_recipe(culture_feature_eng_recipe) #no need to transform the data (prep,bake), we are modelling the data
 
 
 culture_engineered_fit <- culture_feature_eng_wf %>% 

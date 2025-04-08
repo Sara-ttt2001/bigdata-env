@@ -6,7 +6,7 @@ library(dbscan)
 library(GGally)
 
 
-genotypes = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L12_tidy_eda/L12_dataset_genotypes.rds"))
+genotypes = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L12_tidy_eda/L12_dataset_genotypes.rds"))
 
 
 ### base R
@@ -49,7 +49,7 @@ pca_recipe <- recipe(~.,
                      )
 pca_transformation <- pca_recipe %>% 
   step_normalize(all_numeric()) %>% 
-  step_pca(all_numeric(), num_comp = 10)
+  step_pca(all_numeric(), num_comp = 10) #perform on the numeric predictors, number of components we want to extract
 
 ## however, here we are not fitting a workflow as in a supervised training
 ## therefore we use two internal functions which serve
@@ -58,7 +58,7 @@ pca_estimates <- prep(
   pca_transformation,
   training = genotyped_individuals %>% select(-c(individual))
 )
-
+#estimating the parameters of the model, similar to fitting the data
 ## and then apply that in order to make the actual calculation
 ## of the principal components
 pca_data <- bake(
