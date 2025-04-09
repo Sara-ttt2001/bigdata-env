@@ -20,7 +20,7 @@ k_means_model <- k_means(
 
 k_means_fit <- k_means_model %>% 
   fit(
-    formula = ~., #no otcome to describe
+    formula = ~., #no outcome to describe
     data = cytofluorimeter_data
   )
 
