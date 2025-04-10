@@ -4,7 +4,7 @@ library(tidymodels)
 library(tidyclust)
 library(GGally)
 
-metastasis_risk_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata-2023/main/L18_modelling_exercises/L18_dataset_metastasis_risk_data.rds"))
+metastasis_risk_data = readRDS(url("https://raw.githubusercontent.com/lescai-teaching/class-bigdata/main/L18_modelling_exercises/L18_dataset_metastasis_risk_data.rds"))
 
 ggpairs(metastasis_risk_data, aes(colour = metastasis_risk))
 
